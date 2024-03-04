@@ -114,5 +114,26 @@ print('INP:', sentence)
 print('OUT:', ' '.join(results[0][0]))
 print('CMP:', ' '.join(results[0][0]) == sentence)
 
+
+# test 5000 câu
+k = 10 
+sentences =  open("test.txt").read().splitlines();
+test_size = len(sentences)
+print(test_size)
+correct = 0
+for sent in sentences:
+  try: 
+    sent = preprocess(sent)
+    _sent = remove_vn_accent(sent)
+    words = _sent.split()
+    results = beam_search(words, k)
+    if ' '.join(results[0][0]) == sent:
+      correct += 1
+  except: 
+    print("err", sent)
+    break
+  
+  print(correct / test_size)
+
 if __name__ == '__main__':
     app.run(debug=True)
